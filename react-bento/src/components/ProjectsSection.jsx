@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ExternalLink, Smartphone, Globe, Code } from 'lucide-react';
 import { useRealtimeData } from '../hooks/useRealtimeData';
+import { CURRENT_VERSION } from './ThemeContext';
 
 export default function ProjectsSection() {
     const [projects] = useRealtimeData('projects');
@@ -26,7 +27,7 @@ export default function ProjectsSection() {
                         {/* Top Image Handle */}
                         <div className="w-full bg-gray-100 dark:bg-gray-800/50 aspect-video relative flex flex-col items-center justify-center overflow-hidden border-b border-brand-border dark:border-brand-darkborder group-hover:bg-orange-50 dark:group-hover:bg-orange-900/10 transition-colors">
                             {p.image ? (
-                                <img src={p.image} alt={p.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                <img src={p.image.startsWith('http') ? p.image : `${p.image}?v=${CURRENT_VERSION}`} alt={p.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                             ) : (
                                 <div className="flex flex-col items-center justify-center p-6 w-full h-full">
                                     <span className="text-brand-gray/50 dark:text-gray-500/50 font-bold mb-2">[ Project Screenshot ]</span>

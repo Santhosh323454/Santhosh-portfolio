@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { UploadCloud, CheckCircle2, FileVideo, FileText, Image as ImageIcon, X } from 'lucide-react';
 import { uploadFile } from '../../services/uploadService';
+import { CURRENT_VERSION } from '../ThemeContext';
 
 export default function FileUploader({
     label,
@@ -109,7 +110,7 @@ export default function FileUploader({
                     </div>
                 ) : value && type === 'image' ? (
                     <div className="relative w-full aspect-video md:aspect-auto md:h-32 flex items-center justify-center rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800">
-                        <img src={value} alt="Preview" className="w-full h-full object-cover" />
+                        <img src={value.startsWith('http') ? value : `${value}?v=${CURRENT_VERSION}`} alt="Preview" className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                             <span className="text-white text-sm font-bold bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">Click to Replace</span>
                         </div>

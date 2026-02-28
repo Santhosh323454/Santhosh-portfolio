@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import ProfileManager from '../components/admin/ProfileManager';
 import ProjectManager from '../components/admin/ProjectManager';
 import ExperienceManager from '../components/admin/ExperienceManager';
+import { CURRENT_VERSION } from '../components/ThemeContext';
 
 export default function AdminDashboard() {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function AdminDashboard() {
                     <div className="flex items-center gap-6">
                         <div className="w-20 h-20 bg-orange-100 rounded-full overflow-hidden border-4 border-white shadow-md flex-shrink-0">
                             {/* 3D Boy Avatar Greeting */}
-                            <img src="/avatarr.png" alt="Admin Avatar" className="w-full h-full object-cover object-top" />
+                            <img src={`/avatarr.png?v=${CURRENT_VERSION}`} alt="Admin Avatar" className="w-full h-full object-cover object-top" />
                         </div>
                         <div>
                             <h1 className="text-3xl font-black text-orange-950">Welcome Back, Santhosh!</h1>
