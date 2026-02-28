@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useRealtimeData } from '../hooks/useRealtimeData';
+import { CURRENT_VERSION } from './ThemeContext';
 
 export default function AIRobotGreeting() {
     const [profile] = useRealtimeData('profile');
@@ -170,7 +171,7 @@ export default function AIRobotGreeting() {
                     >
                         {/* 3D Robot Image Float Animation */}
                         <motion.img
-                            src={profile?.robotImageUrl || '/robot.png'}
+                            src={profile?.robotImageUrl ? `${profile?.robotImageUrl}?v=${CURRENT_VERSION}` : `/robot.png?v=${CURRENT_VERSION}`}
                             alt="AI Robot"
                             animate={{ y: [0, -10, 0] }}
                             transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}

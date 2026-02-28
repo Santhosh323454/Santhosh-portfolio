@@ -5,6 +5,7 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { SiLeetcode } from 'react-icons/si';
 import { useRealtimeData } from '../hooks/useRealtimeData';
 import { forceDownload } from '../utils/downloadUtils';
+import { CURRENT_VERSION } from './ThemeContext';
 
 export default function HeroSection() {
     const [profile] = useRealtimeData('profile');
@@ -87,7 +88,7 @@ export default function HeroSection() {
                             {/* Force image cover naturally without any complex blending modes that fail on Windows browsers */}
                             <div className="w-full h-full rounded-[2rem] overflow-hidden relative">
                                 <img
-                                    src={profile.avatarUrl || '/avatar.png'}
+                                    src={profile.avatarUrl ? `${profile.avatarUrl}?v=${CURRENT_VERSION}` : `/avatar.png?v=${CURRENT_VERSION}`}
                                     alt="Santhosh S"
                                     className="w-full h-full object-cover object-top"
                                 />

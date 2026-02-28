@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useRealtimeData } from '../hooks/useRealtimeData';
+import { CURRENT_VERSION } from './ThemeContext';
 
 export default function AboutSection() {
     const [profile] = useRealtimeData('profile');
@@ -34,7 +35,7 @@ export default function AboutSection() {
                             <div className="w-full h-full rounded-[2rem] overflow-hidden relative">
                                 {/* The actual photo */}
                                 <img
-                                    src={profile.aboutImageUrl || profile.avatarUrl || '/avatar.png'}
+                                    src={profile.aboutImageUrl ? `${profile.aboutImageUrl}?v=${CURRENT_VERSION}` : (profile.avatarUrl ? `${profile.avatarUrl}?v=${CURRENT_VERSION}` : `/avatar.png?v=${CURRENT_VERSION}`)}
                                     alt="Santhosh"
                                     className="w-full h-full object-cover object-top"
                                 />

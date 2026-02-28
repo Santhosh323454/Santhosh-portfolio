@@ -1,36 +1,43 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const ThemeContext = createContext();
-// This key ensures users get the latest version if we change it in code
-const CURRENT_APP_VERSION = '1.0.1';
+
+// EXPORT this so other components can append it to image/resume URLs
+export const CURRENT_VERSION = '1.0.2';
 
 export function ThemeProvider({ children }) {
     // 1. Strict White Theme Default for new visitors
-    // Initial state is ALWAYS false (light mode) unless they explicitly toggled it before
     const [isDarkMode, setIsDarkMode] = useState(() => {
         try {
             const savedTheme = localStorage.getItem('portfolio-theme');
             return savedTheme === 'dark'; // Strict white default
         } catch {
-            return false; // Fallback to white default
+            return false;
         }
     });
 
-    // 2. Real-time Update Logic (Version check)
+    // 2. Real-time Auto-Reload Logic (Cache Busting)
     useEffect(() => {
         const checkVersion = () => {
             const storedVersion = localStorage.getItem('portfolio-version');
-            if (storedVersion !== CURRENT_APP_VERSION) {
-                // App has updated! Clear relevant caches (optional) and save new version
-                localStorage.setItem('portfolio-version', CURRENT_APP_VERSION);
 
-                // Force a hard reload to fetch new bundles dynamically
-                // We ensure it only happens once per version bump
+            if (storedVersion !== CURRENT_VERSION) {
+                // App has updated! Clear localStorage to reset any cached states
+                localStorage.clear();
+
+                // Save the new version
+                localStorage.setItem('portfolio-version', CURRENT_VERSION);
+
+                // If they had a previous version, violently hard-refresh to clear browser cache
                 if (storedVersion !== null) {
                     window.location.reload(true);
                 }
+            } else {
+                // Also ensure the current version is explicitly set even on first visit
+                localStorage.setItem('portfolio-version', CURRENT_VERSION);
             }
         };
+
         checkVersion();
     }, []);
 

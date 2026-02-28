@@ -1,3 +1,5 @@
+import { CURRENT_VERSION } from '../components/ThemeContext';
+
 // Initial mock data based on user's resume
 const DEFAULT_DATA = {
     profile: {
@@ -8,7 +10,7 @@ const DEFAULT_DATA = {
         linkedin: 'https://linkedin.com/in/santhosh-s-24b791320',
         github: 'https://github.com/Santhosh323454',
         leetcode: 'https://leetcode.com/santhosh_323',
-        avatarUrl: '/avatar.png'
+        avatarUrl: `/avatar.png?v=${CURRENT_VERSION}`
     },
     projects: [
         {

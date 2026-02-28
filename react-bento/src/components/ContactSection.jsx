@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail } from 'lucide-react';
+import { CURRENT_VERSION } from './ThemeContext';
 
 export default function ContactSection({ onMessageSent }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,7 +63,7 @@ export default function ContactSection({ onMessageSent }) {
                         {/* Bottom Image: Fits perfectly inside the circle, hiding the bottom of the body */}
                         <div className="absolute inset-0 rounded-full border-4 border-white dark:border-brand-darkborder shadow-ouali-card bg-slate-200 dark:bg-slate-800 flex items-end justify-center overflow-hidden transition-colors">
                             <img
-                                src="/avatar.png"
+                                src={`/avatar.png?v=${CURRENT_VERSION}`}
                                 alt="Contact Santhosh"
                                 className="w-[120%] max-w-none drop-shadow-2xl transition-transform"
                                 style={{ marginBottom: '-5%' }}
@@ -72,7 +73,7 @@ export default function ContactSection({ onMessageSent }) {
                         {/* Top Image: Sits exactly on top, cropped to ONLY show the head, allowing it to overlap the top border */}
                         <div className="absolute inset-x-0 bottom-0 top-[-20%] pointer-events-none flex items-end justify-center z-10">
                             <img
-                                src="/avatar.png"
+                                src={`/avatar.png?v=${CURRENT_VERSION}`}
                                 alt=""
                                 aria-hidden="true"
                                 className="w-[120%] max-w-none drop-shadow-2xl"
