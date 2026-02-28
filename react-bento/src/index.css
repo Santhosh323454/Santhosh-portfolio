@@ -26,6 +26,7 @@
   }
 
   /* Dark Mode Base Overrides */
+  body.dark,
   .dark body {
     background-color: theme('colors.brand.darkbg');
     color: #F8F9FA;
