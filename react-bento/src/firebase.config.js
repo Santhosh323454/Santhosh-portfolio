@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 // Replace these with your actual Firebase project config credentials
@@ -15,5 +16,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+console.log("Firebase initialized with project:", import.meta.env.VITE_FIREBASE_PROJECT_ID);
+
 // Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(app);
+export const auth = getAuth(app);
