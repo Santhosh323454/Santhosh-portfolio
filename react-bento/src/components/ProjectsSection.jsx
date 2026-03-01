@@ -62,12 +62,18 @@ export default function ProjectsSection() {
 
                             {/* Action Buttons */}
                             <div className="flex items-center gap-3">
-                                <a href={p.link || '#'} target="_blank" rel="noreferrer" className="flex-1 btn-outline py-2.5 text-sm">
+                                <a href={p.githubLink || '#'} target="_blank" rel="noreferrer" className="flex-1 btn-outline py-2.5 text-sm text-center flex justify-center items-center gap-1.5">
                                     <Code size={16} /> Code
                                 </a>
-                                <button className="flex-1 btn-primary py-2.5 text-sm shadow-none hover:-translate-y-0 disabled:opacity-50 cursor-not-allowed">
-                                    <ExternalLink size={16} /> Demo
-                                </button>
+                                {p.demoLink ? (
+                                    <a href={p.demoLink} target="_blank" rel="noreferrer" className="flex-1 btn-primary py-2.5 text-sm shadow-none hover:-translate-y-0 text-center flex justify-center items-center gap-1.5">
+                                        <ExternalLink size={16} /> Demo
+                                    </a>
+                                ) : (
+                                    <button className="flex-1 btn-primary py-2.5 text-sm shadow-none hover:-translate-y-0 disabled:opacity-50 cursor-not-allowed flex justify-center items-center gap-1.5" disabled>
+                                        <ExternalLink size={16} /> Demo
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </motion.div>

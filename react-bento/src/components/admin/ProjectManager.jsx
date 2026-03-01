@@ -5,7 +5,7 @@ import FileUploader from './FileUploader';
 export default function ProjectManager() {
     const [projects, updateProjects] = useRealtimeData('projects');
     const [editingId, setEditingId] = useState(null);
-    const [formData, setFormData] = useState({ id: '', title: '', type: '', tech: '', description: '', link: '', image: '' });
+    const [formData, setFormData] = useState({ id: '', title: '', type: '', tech: '', description: '', githubLink: '', demoLink: '', image: '' });
 
     const handleEdit = (proj) => {
         setEditingId(proj.id);
@@ -33,7 +33,7 @@ export default function ProjectManager() {
 
     const handleCreateNew = () => {
         setEditingId('new');
-        setFormData({ id: '', title: '', type: '', tech: '', description: '', link: '', image: '' });
+        setFormData({ id: '', title: '', type: '', tech: '', description: '', githubLink: '', demoLink: '', image: '' });
     };
 
     return (
@@ -87,7 +87,8 @@ function ProjectForm({ formData, setFormData, handleSave, handleCancel }) {
             <input type="text" name="title" value={formData.title} onChange={handleChange} className="p-2 border rounded" placeholder="Title" />
             <input type="text" name="type" value={formData.type} onChange={handleChange} className="p-2 border rounded" placeholder="Type (e.g. Android App)" />
             <input type="text" name="tech" value={formData.tech} onChange={handleChange} className="p-2 border rounded" placeholder="Tech Stack (comma separated)" />
-            <input type="text" name="link" value={formData.link} onChange={handleChange} className="p-2 border rounded" placeholder="Project Link (Optional PDF / URL)" />
+            <input type="text" name="githubLink" value={formData.githubLink} onChange={handleChange} className="p-2 border rounded" placeholder="GitHub Code Link" />
+            <input type="text" name="demoLink" value={formData.demoLink} onChange={handleChange} className="p-2 border rounded" placeholder="Live Demo Link" />
             <FileUploader
                 label="Project Screenshot"
                 type="image"
