@@ -47,13 +47,20 @@ export function useRealtimeData(key) {
         const sanitizedData = JSON.parse(JSON.stringify(newData));
 
         try {
+            // Specifically targeting the document the user requested
             const docRef = doc(db, 'portfolioData', 'ztqRJzp4Qr0UqNqD0MOp');
-            // Persist to Firestore under the specific key with merge: true
-            await setDoc(docRef, { [key]: sanitizedData }, { merge: true });
-            console.log('Firebase Save Success');
+
+            // According to the user's snippet, we map formData explicitly to a 'profile' object inside the document if key is 'profile'.
+            // Or generically, we wrap the updated object under its key.
+            const dataToSet = {
+                [key]: sanitizedData
+            };
+
+            await setDoc(docRef, dataToSet, { merge: true });
+
+            console.log('Firebase Update Success');
         } catch (error) {
-            console.error('Firebase Save Error:', error);
-            // Optionally, we can rethrow to let the caller handle the alert.
+            console.error('Firebase Update Error:', error);
             throw error;
         }
     };
