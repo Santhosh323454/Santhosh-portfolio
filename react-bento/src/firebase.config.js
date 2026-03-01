@@ -2,8 +2,6 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
-// Your web app's Firebase configuration
-// Replace these with your actual Firebase project config credentials
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
     authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -13,11 +11,9 @@ const firebaseConfig = {
     appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-// Initialize Firebase
+// Debug log to check if keys are loading in browser console
+console.log("Firebase Initializing for Project:", import.meta.env.VITE_FIREBASE_PROJECT_ID);
+
 const app = initializeApp(firebaseConfig);
-
-console.log("Firebase initialized with project:", import.meta.env.VITE_FIREBASE_PROJECT_ID);
-
-// Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(app);
 export const auth = getAuth(app);
