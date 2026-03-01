@@ -17,9 +17,15 @@ export default function ProfileManager() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSave = () => {
-        updateProfile(formData);
-        alert('Profile updated and broadcasted instantly!');
+    const handleSave = async () => {
+        try {
+            console.log('--- ATTEMPTING TO SAVE PROFILE ---');
+            console.log('formData being sent to useRealtimeData:', formData);
+            await updateProfile(formData);
+            alert('Profile updated and broadcasted instantly!');
+        } catch (error) {
+            alert('Failed to save profile. Check the console for details.');
+        }
     };
 
     if (!profile) return <p>Loading...</p>;
