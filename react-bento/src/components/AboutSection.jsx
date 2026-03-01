@@ -12,7 +12,7 @@ export default function AboutSection() {
     ];
 
     return (
-        <section id="about" className="section-container relative z-10 transition-colors">
+        <section id="about" className="section-container relative z-10 transition-colors overflow-hidden">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
 
                 {/* Left Side: Photo + Graphic */}

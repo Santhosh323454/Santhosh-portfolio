@@ -36,10 +36,10 @@ export default function NavBar() {
             transition={{ duration: 0.8, ease: 'easeOut' }}
             className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4"
         >
-            <div className="bg-white/80 dark:bg-brand-darkcard/90 backdrop-blur-lg border border-brand-border dark:border-brand-darkborder shadow-ouali-card dark:shadow-ouali-darkcard rounded-full px-6 py-3 flex items-center justify-between gap-8 md:gap-16 w-full max-w-3xl transition-colors">
+            <div className="bg-white/80 dark:bg-brand-darkcard/90 backdrop-blur-lg border border-brand-border dark:border-brand-darkborder shadow-ouali-card dark:shadow-ouali-darkcard rounded-full px-4 sm:px-6 py-2 sm:py-3 flex items-center justify-between gap-4 md:gap-16 w-full max-w-3xl transition-colors">
 
                 {/* Logo */}
-                <div className="font-extrabold text-xl tracking-tight text-brand-dark dark:text-white transition-colors">
+                <div className="font-extrabold text-lg sm:text-xl tracking-tight text-brand-dark dark:text-white transition-colors">
                     Portfolio<span className="text-brand-orange">.</span>
                 </div>
 
