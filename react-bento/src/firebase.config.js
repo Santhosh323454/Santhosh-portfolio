@@ -13,6 +13,7 @@ const firebaseConfig = {
 
 // Debug log to check if keys are loading in browser console
 console.log("Firebase Initializing for Project:", import.meta.env.VITE_FIREBASE_PROJECT_ID);
+console.log("Using API Key:", import.meta.env.VITE_FIREBASE_API_KEY);
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
