@@ -36,24 +36,6 @@ export default function ChatBot({ onClose }) {
         scrollToBottom();
     }, [messages]);
 
-    useEffect(() => {
-        // Diagnostic: Fetch and log all available Gemini models allowed by the API key
-        const fetchModels = async () => {
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${import.meta.env.VITE_GEMINI_API_KEY}`);
-                const data = await response.json();
-                console.log("=== AVAILABLE GEMINI MODELS ===");
-                if (data.models) {
-                    data.models.forEach(m => console.log(`- ${m.name} (version: ${m.version})`));
-                } else {
-                    console.log("No models found or API key restricted.", data);
-                }
-            } catch (error) {
-                console.error("Error fetching Gemini models list:", error);
-            }
-        };
-        fetchModels();
-    }, []);
 
     const handleSend = async (e) => {
         e.preventDefault();
@@ -63,12 +45,13 @@ export default function ChatBot({ onClose }) {
         setInput('');
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
         setIsLoading(true);
+        console.log("Connecting to Gemini...");
 
         try {
             const model = genAI.getGenerativeModel({
                 model: "gemini-1.5-flash",
                 systemInstruction: systemInstruction,
-            });
+            }, { apiVersion: 'v1beta' }); // explicitly hitting the exact endpoint requirement if SDK complains
 
             // Convert format for Gemini
             const chatHistory = messages.slice(1).map(m => ({
