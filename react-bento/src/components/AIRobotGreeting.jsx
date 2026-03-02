@@ -3,12 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useRealtimeData } from '../hooks/useRealtimeData';
 import { CURRENT_VERSION } from './ThemeContext';
+import ChatBot from './ChatBot';
 
 export default function AIRobotGreeting() {
     const [profile] = useRealtimeData('profile');
     const [greeting, setGreeting] = useState('');
     const [showMessage, setShowMessage] = useState(false);
     const [isMessageSent, setIsMessageSent] = useState(false);
+    const [isChatOpen, setIsChatOpen] = useState(false);
 
     // Animation Phase State: 'intro' (center screen) -> 'idle' (bottom right)
     const [phase, setPhase] = useState('idle');
@@ -161,7 +163,8 @@ export default function AIRobotGreeting() {
                         }}
                         onClick={() => {
                             if (phase === 'idle') {
-                                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                                setIsChatOpen(!isChatOpen);
+                                setShowMessage(false);
                             }
                         }}
                         className={`pointer-events-auto flex items-center justify-center relative transition-all ${phase === 'intro'
@@ -189,6 +192,10 @@ export default function AIRobotGreeting() {
                     </motion.button>
                 </motion.div>
             </div>
+
+            <AnimatePresence>
+                {isChatOpen && <ChatBot onClose={() => setIsChatOpen(false)} />}
+            </AnimatePresence>
         </>
     );
 }
