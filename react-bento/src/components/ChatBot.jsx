@@ -47,7 +47,7 @@ export default function ChatBot({ onClose }) {
 
         try {
             const model = genAI.getGenerativeModel({
-                model: "gemini-1.5-flash-latest",
+                model: "gemini-1.5-flash",
                 systemInstruction: systemInstruction,
             });
 
@@ -71,14 +71,14 @@ export default function ChatBot({ onClose }) {
 
             // Log specifically if it's a model not found / API version issue
             if (error.message && (error.message.includes('404') || error.message.includes('not found'))) {
-                console.error("Model Name or API Version Error: Please ensure you are using a valid model name (e.g., gemini-1.5-flash-latest) and @google/generative-ai version 0.11.0 or higher.");
+                console.error("Model Name or API Version Error: Ensure you are using the precise model name 'gemini-1.5-flash' and @google/generative-ai version is fully updated.");
             }
 
             let errorMessage = "Sorry, I encountered an error connecting to the AI. Please try again later.";
             if (error.message && error.message.includes('API key not valid')) {
                 errorMessage = "API Configuration Error. Please verify the Gemini API key in your .env file.";
             } else if (error.message && error.message.includes('not found')) {
-                errorMessage = "Model Error: The AI model could not be found. Please check your model name and SDK version.";
+                errorMessage = "Model Error: The AI model could not be found via the endpoint. Using the stable 'gemini-1.5-flash' should resolve this.";
             }
             setMessages(prev => [...prev, { role: 'assistant', content: errorMessage }]);
         } finally {
