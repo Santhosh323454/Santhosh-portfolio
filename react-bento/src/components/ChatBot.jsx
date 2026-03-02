@@ -36,6 +36,25 @@ export default function ChatBot({ onClose }) {
         scrollToBottom();
     }, [messages]);
 
+    useEffect(() => {
+        // Diagnostic: Fetch and log all available Gemini models allowed by the API key
+        const fetchModels = async () => {
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${import.meta.env.VITE_GEMINI_API_KEY}`);
+                const data = await response.json();
+                console.log("=== AVAILABLE GEMINI MODELS ===");
+                if (data.models) {
+                    data.models.forEach(m => console.log(`- ${m.name} (version: ${m.version})`));
+                } else {
+                    console.log("No models found or API key restricted.", data);
+                }
+            } catch (error) {
+                console.error("Error fetching Gemini models list:", error);
+            }
+        };
+        fetchModels();
+    }, []);
+
     const handleSend = async (e) => {
         e.preventDefault();
         if (!input.trim() || isLoading) return;
