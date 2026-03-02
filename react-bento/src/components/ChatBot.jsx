@@ -47,7 +47,7 @@ export default function ChatBot({ onClose }) {
 
         try {
             const model = genAI.getGenerativeModel({
-                model: "gemini-1.5-flash",
+                model: "gemini-1.5-flash-latest",
                 systemInstruction: systemInstruction,
             });
 
@@ -68,9 +68,17 @@ export default function ChatBot({ onClose }) {
             setMessages(prev => [...prev, { role: 'assistant', content: text }]);
         } catch (error) {
             console.error("Gemini API Error:", error);
+
+            // Log specifically if it's a model not found / API version issue
+            if (error.message && (error.message.includes('404') || error.message.includes('not found'))) {
+                console.error("Model Name or API Version Error: Please ensure you are using a valid model name (e.g., gemini-1.5-flash-latest) and @google/generative-ai version 0.11.0 or higher.");
+            }
+
             let errorMessage = "Sorry, I encountered an error connecting to the AI. Please try again later.";
             if (error.message && error.message.includes('API key not valid')) {
                 errorMessage = "API Configuration Error. Please verify the Gemini API key in your .env file.";
+            } else if (error.message && error.message.includes('not found')) {
+                errorMessage = "Model Error: The AI model could not be found. Please check your model name and SDK version.";
             }
             setMessages(prev => [...prev, { role: 'assistant', content: errorMessage }]);
         } finally {
@@ -109,8 +117,8 @@ export default function ChatBot({ onClose }) {
                     >
                         <div
                             className={`max-w-[85%] rounded-2xl p-3 text-sm whitespace-pre-wrap ${msg.role === 'user'
-                                    ? 'bg-brand-orange text-white rounded-br-sm'
-                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-bl-sm'
+                                ? 'bg-brand-orange text-white rounded-br-sm'
+                                : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-bl-sm'
                                 }`}
                         >
                             {msg.content}
