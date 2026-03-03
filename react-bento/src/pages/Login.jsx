@@ -8,7 +8,7 @@ export default function Login() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    // Target Hash for "Santhosh454"
+
     const targetHash = '67d60cfcea9dd92d6ba817cfb7ecea5e8461a369c65ffdecce8eb85cc9263332';
 
     const handleLogin = (e) => {
