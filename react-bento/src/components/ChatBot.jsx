@@ -2,19 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { X, Send, Loader2 } from 'lucide-react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { useRealtimeData } from '../hooks/useRealtimeData';
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
-
-const systemContext = `You are Santhosh's Professional AI Assistant.
-YOUR CORE DIRECTIVE:
-1. You MUST ONLY answer questions related to Santhosh's professional background, skills, and projects listed below.
-2. If the user asks ANY question not directly related to Santhosh's profile (like writing code, general knowledge, math, weather, jokes, etc.), you MUST STRICTLY REFUSE and reply EXACTLY with: "I am programmed to only discuss Santhosh's professional background, skills, and projects."
-3. Do not invent information or break character.
-
-PORTFOLIO DATA:
-Profile: Santhosh S, B.Tech IT student at K S Rangasamy College of Technology.
-Skills: Java, SAP ABAP, MySQL, Python, Bootstrap, NLP, and AI/ML.
-Key Projects: Task Master (Flutter productivity app) and Smart Context AI (Chrome Extension using Gemini Vision).`;
 
 export default function ChatBot({ onClose }) {
     const [messages, setMessages] = useState([
@@ -23,6 +13,10 @@ export default function ChatBot({ onClose }) {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
+
+    const [projects] = useRealtimeData('projects');
+    const [skills] = useRealtimeData('skills');
+    const [profile] = useRealtimeData('profile');
 
     // 🔍 Available Models Diagnostic (Logs to Browser Console)
     useEffect(() => {
@@ -63,11 +57,34 @@ export default function ChatBot({ onClose }) {
                 model: "gemini-2.5-flash"
             }, { apiVersion: 'v1beta' });
 
+            // Construct Dynamic Context
+            let dynamicContext = "";
+            const isDataLoading = !profile || !skills || !projects;
+
+            if (isDataLoading) {
+                dynamicContext = "You are Santhosh's Professional AI Assistant. Please provide a helpful, professional greeting. (Detailed portfolio data is currently loading from the database).";
+            } else {
+                const profileStr = profile.length > 0 ? Object.values(profile[0]).join(', ') : 'Not specified';
+                const skillsStr = skills.map(s => s.name || s.title || s.skill || Object.values(s)[0]).join(', ');
+                const projectsStr = projects.map(p => `${p.title || p.name} (${p.shortDescription || p.description || ''})`).join(', ');
+
+                dynamicContext = `You are Santhosh's Professional AI Assistant.
+YOUR CORE DIRECTIVE:
+1. You MUST ONLY answer questions related to Santhosh's professional background, skills, and projects listed below.
+2. If the user asks ANY question not directly related to Santhosh's profile (like writing code, general knowledge, math, weather, jokes, etc.), you MUST STRICTLY REFUSE and reply EXACTLY with: "I am programmed to only discuss Santhosh's professional background, skills, and projects."
+3. Do not invent information or break character.
+
+PORTFOLIO DATA:
+Profile: ${profileStr}
+Skills: ${skillsStr}
+Key Projects: ${projectsStr}`;
+            }
+
             // Create valid history array with Portfolio context at index 0 and 1
             const strictHistory = [
                 {
                     role: 'user',
-                    parts: [{ text: `Instructions: ${systemContext}` }]
+                    parts: [{ text: `Instructions: ${dynamicContext}` }]
                 },
                 {
                     role: 'model',
