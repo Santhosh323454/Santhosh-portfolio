@@ -51,7 +51,7 @@ export default function ChatBot({ onClose }) {
             const model = genAI.getGenerativeModel({
                 model: "gemini-1.5-flash",
                 systemInstruction: systemInstruction,
-            }, { apiVersion: 'v1beta' }); // explicitly hitting the exact endpoint requirement if SDK complains
+            }, { apiVersion: 'v1' }); // Explicitly ensuring stable v1 endpoint
 
             // Convert format for Gemini
             const chatHistory = messages.slice(1).map(m => ({
@@ -79,8 +79,8 @@ export default function ChatBot({ onClose }) {
             let errorMessage = "Sorry, I encountered an error connecting to the AI. Please try again later.";
             if (error.message && error.message.includes('API key not valid')) {
                 errorMessage = "API Configuration Error. Please verify the Gemini API key in your .env file.";
-            } else if (error.message && error.message.includes('not found')) {
-                errorMessage = "Model Error: The AI model could not be found via the endpoint. Using the stable 'gemini-1.5-flash' should resolve this.";
+            } else if (error.message && (error.message.includes('404') || error.message.includes('not found'))) {
+                errorMessage = "Model Error: The AI model could not be found via the endpoint. Using the stable gemini-1.5-flash should resolve this.";
             }
             setMessages(prev => [...prev, { role: 'assistant', content: errorMessage }]);
         } finally {
