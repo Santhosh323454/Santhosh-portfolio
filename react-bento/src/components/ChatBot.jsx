@@ -108,7 +108,7 @@ Key Projects: ${projectsStr}`;
         } catch (error) {
             console.error("Chat Error:", error);
 
-            let errorMessage = "Sorry, I hit an error connecting to the AI. Check the console.";
+            let errorMessage = "Chatbot was comming soon...";
             if (error.message && error.message.includes('API key not valid')) {
                 errorMessage = "API Configuration Error. Please verify the Gemini API key in your .env file.";
             } else if (error.message && (error.message.includes('404') || error.message.includes('not found'))) {
