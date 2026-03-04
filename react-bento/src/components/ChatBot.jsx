@@ -220,6 +220,51 @@ ${certsStr}`;
                 }
                 continue; // quota, 404, 500, or any other error — try next model
             }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+            // Create valid history array with Portfolio context at index 0 and 1
+            const strictHistory = [
+                {
+                    role: 'user',
+                    parts: [{ text: `Instructions: ${dynamicContext}` }]
+                },
+                {
+                    role: 'model',
+                    parts: [{ text: "Understood. I will act strictly as Santhosh's Professional Assistant and will refuse to answer any questions unrelated to the provided portfolio data." }]
+                },
+                ...messages.slice(1).map(m => ({
+                    role: m.role === 'assistant' ? 'model' : 'user',
+                    parts: [{ text: m.content }]
+                }))
+            ];
+
+            const chat = model.startChat({
+                history: strictHistory
+            });
+
+            const result = await chat.sendMessage(userMessage);
+            const response = await result.response;
+            const text = response.text();
+
+            setMessages(prev => [...prev, { role: 'assistant', content: text }]);
+        } catch (error) {
+            console.error("Chat Error:", error);
+
+            let errorMessage = "Chatbot was comming soon...";
+            if (error.message && error.message.includes('API key not valid')) {
+                errorMessage = "API Configuration Error. Please verify the Gemini API key in your .env file.";
+            } else if (error.message && (error.message.includes('404') || error.message.includes('not found'))) {
+                errorMessage = "Model Error: The 'gemini-2.5-flash' model could not be found via the endpoint. Check your API permissions.";
+            }
+
+            setMessages(prev => [...prev, { role: 'assistant', content: errorMessage }]);
+        } finally {
+            setIsLoading(false);
+=======
+>>>>>>> 1dc472f (Fix: Enabled dynamic context and fixed model 404 error)
+>>>>>>> 6f523a4
         }
 
         // All models failed
