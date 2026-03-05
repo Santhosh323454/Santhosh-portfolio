@@ -109,19 +109,11 @@ export default function ChatBot({ onClose }) {
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
         setIsLoading(true);
 
-        // Build the models to try: preferred order first, then ALL detected models as extra fallbacks
-        const startModel = resolvedModel || PREFERRED_MODELS[0];
-        const startIdx = PREFERRED_MODELS.indexOf(startModel);
-        const preferredOrdered = startIdx >= 0
-            ? [...PREFERRED_MODELS.slice(startIdx), ...PREFERRED_MODELS.slice(0, startIdx)]
-            : [startModel, ...PREFERRED_MODELS];
+        // Build the models to try: fallback order
+        const startModel = resolvedModel || (availableModels.length > 0 ? availableModels[0] : 'gemini-1.5-flash');
 
-        // Append all available models not already in preferred list
-        const allModels = [...preferredOrdered, ...availableModels];
-
-        // Deduplicate while preserving order
-        const seen = new Set();
-        const tryList = allModels.filter(m => m && !seen.has(m) && seen.add(m));
+        // Try active model first, then the rest of detected available models
+        const tryList = [startModel, ...availableModels.filter(m => m !== startModel)];
         console.log('[ChatBot] Will try models in order:', tryList);
 
         // Construct context from LIVE Firestore data only — no hardcoded details
@@ -220,7 +212,7 @@ ${certsStr}`;
                 }
                 continue; // quota, 404, 500, or any other error — try next model
             }
-        }
+        } // <--- End of tryList loop
 
         // All models failed
         console.error('Chat Error (all models failed):', lastError);
