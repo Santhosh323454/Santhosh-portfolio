@@ -11,10 +11,21 @@ const firebaseConfig = {
     appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-// Debug log to check if keys are loading in browser console
-console.log("Firebase Initializing for Project:", import.meta.env.VITE_FIREBASE_PROJECT_ID);
-console.log("Using API Key:", import.meta.env.VITE_FIREBASE_API_KEY);
+let app = null;
+let db = null;
+let auth = null;
 
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const auth = getAuth(app);
+try {
+    if (firebaseConfig.apiKey && firebaseConfig.apiKey !== 'undefined') {
+        app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        auth = getAuth(app);
+        console.log("Firebase Initialized Successfully.");
+    } else {
+        console.warn("Firebase config is missing or incomplete. Firebase services will be unavailable.");
+    }
+} catch (error) {
+    console.error("Firebase initialization error:", error);
+}
+
+export { db, auth, app };

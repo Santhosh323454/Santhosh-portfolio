@@ -6,17 +6,17 @@ import { useRealtimeData } from '../hooks/useRealtimeData';
 import { forceDownload } from '../utils/downloadUtils';
 import ReactMarkdown from 'react-markdown';
 
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+// Priority list removed
 
-// Priority list of preferred Gemini models (best/newest first)
-const PREFERRED_MODELS = [
-    'gemini-2.5-flash',
-    'gemini-2.5-pro',
-    'gemini-2.0-flash',
-    'gemini-2.0-flash-lite',
-    'gemini-1.5-flash',
-    'gemini-1.0-pro',
-];
+// Initialize genAI securely without crashing the module if API key is missing
+let genAI = null;
+try {
+    if (import.meta.env.VITE_GEMINI_API_KEY) {
+        genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+    }
+} catch (e) {
+    console.error("Failed to initialize GoogleGenerativeAI:", e);
+}
 
 export default function ChatBot({ onClose }) {
     const [messages, setMessages] = useState([
@@ -70,19 +70,8 @@ export default function ChatBot({ onClose }) {
                 console.log('[ChatBot] Available conversational models:', available);
                 setAvailableModels(available);
 
-                // Pick based on priority list
-                let picked = null;
-                for (const preferred of PREFERRED_MODELS) {
-                    if (available.some(a => a.includes(preferred))) {
-                        picked = preferred;
-                        break;
-                    }
-                }
-
-                // Fallback to first available if none match priority list
-                if (!picked && available.length > 0) {
-                    picked = available[0];
-                }
+                // Pick the first available flash model as default, or any model if none
+                let picked = available.find(m => m.includes('flash')) || (available.length > 0 ? available[0] : null);
 
                 const finalModel = picked || 'gemini-2.0-flash';
                 console.log('[ChatBot] Using model:', finalModel);

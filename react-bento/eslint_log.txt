@@ -1,0 +1,17 @@
+[0m[0m
+[0m[4mC:\Users\hp\OneDrive\Documents\my portfolio1\react-bento\src\components\ChatBot.jsx[24m[0m
+[0m    [2m2:10[22m  [31merror[39m  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  [2mno-unused-vars[22m[0m
+[0m  [2m262:51[22m  [31merror[39m  'node' is defined but never used                                               [2mno-unused-vars[22m[0m
+[0m  [2m263:56[22m  [31merror[39m  'node' is defined but never used                                               [2mno-unused-vars[22m[0m
+[0m  [2m264:54[22m  [31merror[39m  'node' is defined but never used                                               [2mno-unused-vars[22m[0m
+[0m  [2m265:52[22m  [31merror[39m  'node' is defined but never used                                               [2mno-unused-vars[22m[0m
+[0m  [2m266:52[22m  [31merror[39m  'node' is defined but never used                                               [2mno-unused-vars[22m[0m
+[0m  [2m293:55[22m  [31merror[39m  'node' is defined but never used                                               [2mno-unused-vars[22m[0m
+[0m  [2m294:60[22m  [31merror[39m  'node' is defined but never used                                               [2mno-unused-vars[22m[0m
+[0m  [2m295:56[22m  [31merror[39m  'node' is defined but never used                                               [2mno-unused-vars[22m[0m
+[0m  [2m296:56[22m  [31merror[39m  'node' is defined but never used                                               [2mno-unused-vars[22m[0m
+[0m  [2m297:56[22m  [31merror[39m  'node' is defined but never used                                               [2mno-unused-vars[22m[0m
+[0m  [2m298:55[22m  [31merror[39m  'node' is defined but never used                                               [2mno-unused-vars[22m[0m
+[0m[0m
+[0m[31m[1m✖ 12 problems (12 errors, 0 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
